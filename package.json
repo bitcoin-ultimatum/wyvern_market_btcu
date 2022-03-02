@@ -1,0 +1,57 @@
+{
+  "name": "erc721-hello",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ponizhan/erc721-hello.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ponizhan/erc721-hello/issues"
+  },
+  "homepage": "https://github.com/ponizhan/erc721-hello#readme",
+  "scripts": {
+    "compile": "npx hardhat compile",
+    "test": "npx hardhat test",
+    "deploy-local": "npx hardhat deploy",
+    "deploy-testnet": "npx hardhat deploy --network rinkeby",
+    "deploy-mainnet": "npx hardhat deploy --network mainnet"
+  },
+  "devDependencies": {
+    "@ethersproject/contracts": "^5.5.0",
+    "@ethersproject/providers": "^5.5.0",
+    "@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers@^0.3.0-beta.8",
+    "@nomiclabs/hardhat-etherscan": "^2.1.5",
+    "@nomiclabs/hardhat-waffle": "^2.0.1",
+    "@nomiclabs/hardhat-web3": "^2.0.0",
+    "@openzeppelin/contracts-upgradeable": "^4.1.0",
+    "@typechain/ethers-v5": "^7.0.1",
+    "@typechain/hardhat": "^2.3.0",
+    "@types/async": "^3.2.10",
+    "@types/chai": "^4.2.18",
+    "@types/chai-as-promised": "^7.1.4",
+    "@types/mocha": "^8.2.2",
+    "@types/node": "^15.12.2",
+    "@types/prompts": "^2.0.14",
+    "chai": "^4.3.4",
+    "chai-as-promised": "^7.1.1",
+    "dotenv": "^8.6.0",
+    "ethereum-waffle": "^3.4.0",
+    "ethers": "^5.5.1",
+    "hardhat": "^2.6.8",
+    "hardhat-contract-sizer": "^2.1.1",
+    "hardhat-deploy": "^0.7.9",
+    "hardhat-deploy-ethers": "^0.3.0-beta.8",
+    "hardhat-gas-reporter": "^1.0.4",
+    "prettier": "^2.4.1",
+    "prettier-plugin-solidity": "^1.0.0-beta.18",
+    "prompts": "^2.4.2",
+    "ts-node": "^10.0.0",
+    "typechain": "^5.1.0",
+    "typescript": "^4.3.2",
+    "@openzeppelin/contracts": "^4.3.3"
+  }
+}
