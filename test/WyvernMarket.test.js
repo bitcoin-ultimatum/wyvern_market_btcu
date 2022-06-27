@@ -16,7 +16,7 @@ const deploy = deployments.createFixture(async ({ deployments, ethers }, options
 
     const [deployer, trader1] = await ethers.getSigners()
 
-    const proxyRegistry = await ethers.getContract("WyvernProxyRegistry")
+    const proxyRegistry = await ethers.getContract("WyvernProxyRegistryN")
     await proxyRegistry.connect(deployer).registerProxy()
     const personalProxy = await proxyRegistry.proxies(deployer.address)
 
@@ -27,7 +27,7 @@ const deploy = deployments.createFixture(async ({ deployments, ethers }, options
     const token = await ethers.getContract("Token")
     await token.connect(deployer).transfer(trader1.address, tokens("100000"))
 
-    const wyvernExchange = await ethers.getContract("WyvernExchange")
+    const wyvernExchange = await ethers.getContract("WyvernExchangeN")
     const transferProxy = await wyvernExchange.tokenTransferProxy()
 
     await token.connect(trader1).approve(transferProxy, tokens("100000"))
@@ -134,5 +134,6 @@ describe("Wyvern Protocol Test", () => {
             [buyV, sellV],
             [buyR, buyS, sellR, sellS, ZeroWord]
         )
+
     })
 })

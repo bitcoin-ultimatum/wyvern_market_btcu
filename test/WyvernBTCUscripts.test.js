@@ -1,4 +1,5 @@
 const { ethers } = require("hardhat")
+const { setEmitFlags, ModifierFlags } = require("typescript")
 
 const AddressZero = ethers.constants.AddressZero
 const ZeroWord = "0x0000000000000000000000000000000000000000000000000000000000000000"
@@ -13,8 +14,8 @@ describe("Wyvern Protocol Test", () => {
     it("ecode ... ", async () => {
 
         const abiCoder = new ethers.utils.AbiCoder
-        const deployer = "0xadbfd2f0b8892eac63b2fd1dc72b1139c41dcc29"
-        const sender = "1GqhhMMEJqfr2uuYocW7TnU5KTMYp6mz3r"
+        const deployer = "0x97e0697bce91f007bdb11c6e2785c367f039c1ee"
+        const sender = "1Er3sPYTPoJEzzFMVBEGi86eoS11vSLH6N"
 
         // interfaces
         const fWyvernProxyRegistry = [
@@ -30,7 +31,8 @@ describe("Wyvern Protocol Test", () => {
             "function isApprovedForAll(address account, address operator)",
             "function mint(address account, uint256 id, uint256 amount, string memory ipfsHash)",
             "function balanceOf(address account, uint256 id)",
-            "function safeTransferFrom(address from, address to, uint256 id, uint256 amount, bytes data)"
+            "function safeTransferFrom(address from, address to, uint256 id, uint256 amount, bytes data)",
+
         ]
 
         const iERC1155 = new ethers.utils.Interface(fERC1155)
@@ -56,7 +58,7 @@ describe("Wyvern Protocol Test", () => {
             ['string', 'string', 'uint256'], [ "Tether USD", "USDT", "100000000000000000000000000" ]
         )
 
-        const ERC20 = "0xb40e1b1819dbba41b8d2c2939db00ff1552e5842"
+        const ERC20 = "0xe136362bc62c817ce59fac7d93d7f38dd4ecc7d1"
 
         // 2
         const erc1155encodedParametrs = abiCoder.encode(
@@ -64,10 +66,10 @@ describe("Wyvern Protocol Test", () => {
             ["http://example.com/"]
         )
 
-        const ERC1155 = "0x538a7581373c38445265c07428d53597ba22231d"
+        const ERC1155 = "0x2ffbbb074098fe875bbb594c4b5fb5bbfda1ea4a"
 
         // 3
-        const WyvernProxyRegistry = "0x7aaa5dba689af262aecbed0b8e07798320759f8a"
+        const WyvernProxyRegistry = "0xdc1a99e9ca3eba95bb214e1a34456c1fa777d651"
 
         //4
         const wyvernTokenTransferProxyEncodedParametrs = abiCoder.encode(
@@ -75,7 +77,7 @@ describe("Wyvern Protocol Test", () => {
             [WyvernProxyRegistry]
         )
 
-        const WyvernTokenTransferProxy = "0x65cf9f3b2c32f5e20e24e90da98961dc1c2fd352"
+        const WyvernTokenTransferProxy = "0x304d7a988b6969c475b77a6e0ff89534cdf69cfa"
 
         // 5
         const wyvernExchangeEncodedParametrs = abiCoder.encode(
@@ -83,7 +85,7 @@ describe("Wyvern Protocol Test", () => {
             [WyvernProxyRegistry, WyvernTokenTransferProxy, ERC20, deployer]
         )
 
-        const WyvernExchange = "0xa49ea85e6a6880533318a8a112e7283ee186de9c"
+        const WyvernExchange = "0xf900daaddf90e667ce49e9db41ea762f8eda324a"
 
         console.log("erc20encodedParametrs:: " + erc20encodedParametrs)
         console.log("erc1155encodedParametrs:: " + erc1155encodedParametrs)
@@ -112,7 +114,7 @@ describe("Wyvern Protocol Test", () => {
         console.log(`./bin/btcu-cli callcontract ${WyvernProxyRegistry.slice(2)} ${proxies.slice(2)}`)
         
         // 9
-        const personalProxy = "0x1de8467574ec11f9b15177725e201c95819e0fbd"
+        const personalProxy = "0x07b16ee184e7570e62ddb2042ab431a8740d09bb"
 
         const setApprovalForAll = iERC1155.encodeFunctionData("setApprovalForAll", [personalProxy, true])
         
@@ -127,23 +129,24 @@ describe("Wyvern Protocol Test", () => {
         console.log(`./bin/btcu-cli callcontract ${ERC1155.slice(2)} ${iCallData.slice(2)}`)
 
         // 10
-        const tokenId = 0
-        const mint = iERC1155.encodeFunctionData("mint", [deployer, 0, 1, "hash"])
+        const tokenId = 111
+        const mint = iERC1155.encodeFunctionData("mint", [deployer, tokenId, 1, "hash"])
         
         console.log("=================================================================================================")
         console.log("mint")
         console.log(`./bin/btcu-cli sendtocontract ${ERC1155.slice(2)} ${mint.slice(2)} 0 1000000 40 ${sender}`)
 
-        const balanceOf = iERC1155.encodeFunctionData("balanceOf", [deployer, 0])
+        const balanceOf = iERC1155.encodeFunctionData("balanceOf", [deployer, tokenId])
       
         console.log("=================================================================================================")
         console.log("balanceOf")
         console.log(`./bin/btcu-cli callcontract ${ERC1155.slice(2)} ${balanceOf.slice(2)}`)
         
         // 11
-        const trader = "0x18ea672c1b94e3beb34ae1adb5277c78f24063ea"
-        const traderSender = "13Gk2DF1Dq82a6ipYuHtYXy5hdh24CXAJg"
+        const trader = "0x2c0d80225fd528613976cbfd167aba46cb7cfe65"
+        const traderSender = "151vuUTc9rk9a8Hs62pmFTPwNpsX5UDzAc"
         const transfer = iERC20.encodeFunctionData("transfer", [trader, "1000000000000000000000"])
+
         
         console.log("=================================================================================================")
         console.log("transfer")
@@ -193,15 +196,15 @@ describe("Wyvern Protocol Test", () => {
         console.log("hashToSign_ sell")
         console.log(`./bin/btcu-cli callcontract ${WyvernExchange.slice(2)} ${hashToSign_sell.slice(2)}`)
 
-        const sellOrderHash = "225800306c7713a040005063f3dc9b4c857804369b8bc5bd9605f93f0a28fa8c"
+        const sellOrderHash = "acd662c4b905b3c835f758edf33144c9a88c8082eeabeacaf68dab8bf27386f1"
 
         console.log("=================================================================================================")
         console.log("signmessage")
         console.log(`./bin/btcu-cli signmessage ${sender} ${sellOrderHash}`)
 
-        // "signature": "H3IipWMTA/5PmQY+yBj9DYuSqvnp0SAcgW/SRK8uVXCEF/M5tIxpNWz+yNdRYKvhZ+59PAM61DfaDFV/UUjssjM=",
+        // "signature": "H5NfyZ9s1K2Bbv0cxd1mL8j9LfwskdSuhAD2z+FUhDY6Ll/g8L+FupOdssiVdUAKl5bYcp8VqLA15Y5kDgSCQ+U=",
 
-        const sellSig = "1f34386c5aac06d35691450021ba7447cbe84a7abb21018d3af6e86700f9377c2001ef3fc08e2ccddaec9ac02484fe395ab5ec7abb02521486138e5a0ca8ddf5e2"
+        const sellSig = "1f9cc6deda408901ec433e698094a423f7a32b16a190c37a91d29236fd3063896a0ae53d0a0ad0b11c7bbea7c922b6281c5f07697be6dd709b389d1e90bd0f1972"
 
         const sellR  =  "0x"  + sellSig.substring(2, 66)
         const sellS  =  "0x"  + sellSig.substring(66, 130)
@@ -229,15 +232,13 @@ describe("Wyvern Protocol Test", () => {
         console.log("hashToSign_ buy")
         console.log(`./bin/btcu-cli callcontract ${WyvernExchange.slice(2)} ${hashToSign_buy.slice(2)}`)
 
-        const buyOrderHash = "2b900b61d1fe85023524717586a9fd0bafed2601340866551501cf0fbf2e5fd0"
+        const buyOrderHash = "b392720ba51e5bcf637d4ff2f93af1575497b52c219b39c4e374506c639d72ea"
 
         console.log("=================================================================================================")
         console.log("signmessage")
         console.log(`./bin/btcu-cli signmessage ${traderSender} ${buyOrderHash}`)
 
-        // "signature": "H9acb58lQIBLeouMKAcjrfr5d9YM8DP1lYA/r2ZzFL5gD8haf/GMu2Cdyi/Y0pgqRGAbpkIkQQ4Y6vaqL90r8ao=",
-        
-        const buySig = "1f83d0b010e9cae0edb295f13d2bc950bcdac432c84250c9b1c48e5784ec0c52bb6ee8a45a8c08c62216eb6d2ac1f6ec3eb290bb3482896725966f80505f28f903"
+        const buySig = "1f35600fda8c3dcf9355223fc5c794956cd09b70a0a3ad3ad2a35129b85dbbc78c74ad498d830e097e694b8ab6a25cc58e6fc5ac858b4aeacbc82a89cf47b3a5c6"
 
         const buyR  =  "0x"  + buySig.substring(2, 66)
         const buyS  =  "0x"  + buySig.substring(66, 130)
@@ -270,7 +271,6 @@ describe("Wyvern Protocol Test", () => {
 
         console.log("=================================================================================================")
         console.log("atomicMatch_")
-        console.log(`./bin/btcu-cli sendtocontract ${WyvernExchange.slice(2)} ${atomicMatch_.slice(2)} 0 10000000 40 ${sender}`)
-        
+        console.log(`./bin/btcu-cli sendtocontract ${WyvernExchange.slice(2)} ${atomicMatch_.slice(2)} 0 10000000 40 ${sender}`)  
     })
 })

@@ -218,7 +218,7 @@ contract TokenTransferProxy {
     }
 }
 
-contract WyvernTokenTransferProxy is TokenTransferProxy {
+contract WyvernTokenTransferProxyN is TokenTransferProxy {
     constructor(ProxyRegistry registryAddr) public {
         registry = registryAddr;
     }
